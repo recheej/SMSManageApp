@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toggleAPIUrl">https://www.toggl.com/api/v8/</string>
+</resources>
