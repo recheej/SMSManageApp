@@ -10,8 +10,12 @@ import android.widget.EditText;
 import com.example.rechee.smsmanage.fragments.ErrorDialogFragment;
 import com.example.rechee.smsmanage.R;
 import com.example.rechee.smsmanage.http.ToggleServiceGenerator;
+import com.example.rechee.smsmanage.http.models.toggl.TimeEntry;
 import com.example.rechee.smsmanage.http.models.toggl.UserInfoResponse;
+import com.example.rechee.smsmanage.http.services.toggl.TimeEntryService;
 import com.example.rechee.smsmanage.http.services.toggl.UserInfoService;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +37,13 @@ public class LoginActivity extends Activity {
 
     public void loginClicked(final View view) {
 
-        String username = usernameEditText.getText().toString();
+        final String username = usernameEditText.getText().toString();
         if(username.isEmpty()){
             usernameEditText.setError(getString(R.string.required_field));
             return;
         }
 
-        String password = passwordEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
         if(password.isEmpty()){
             passwordEditText.setError(getString(R.string.required_field));
             return;
@@ -61,7 +65,25 @@ public class LoginActivity extends Activity {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 if (response.isSuccessful()) {
-                    // use response data and do some fancy stuff :)
+                    TimeEntryService timeEntryService = (TimeEntryService) new ToggleServiceGenerator
+                            .Builder<TimeEntryService, TimeEntry>(TimeEntryService.class, TimeEntry.class, baseUrl)
+                            .username(username)
+                            .password(password)
+                            .build();
+
+                    Call<List<TimeEntry>> timeEntryCall = timeEntryService.getTimeEntries(null, null);
+
+                    timeEntryCall.enqueue(new Callback<List<TimeEntry>>() {
+                        @Override
+                        public void onResponse(Call<List<TimeEntry>> call, Response<List<TimeEntry>> response) {
+                            Log.i(LOGIN_ACTIVITY, "we got success");
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<TimeEntry>> call, Throwable t) {
+                            Log.i(LOGIN_ACTIVITY, "we got failure");
+                        }
+                    });
                 } else {
                     ErrorDialogFragment errorDialogFragment = ErrorDialogFragment
                             .getErrorDialog(R.string.invalid_login, R.string.toggl_authentication_error, LoginActivity.this);

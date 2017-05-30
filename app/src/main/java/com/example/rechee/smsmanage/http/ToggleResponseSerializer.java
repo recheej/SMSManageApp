@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
@@ -25,7 +26,6 @@ class ToggleResponseSerializer<T> implements JsonDeserializer<T> {
     @Override
     public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         // Get the "content" element from the parsed JSON
-        JsonElement content = json.getAsJsonObject().get("data");
 
         Gson gson = new GsonBuilder()
                 //convert java objects with casing, fieldName to Toggl's format of field_name
@@ -33,6 +33,14 @@ class ToggleResponseSerializer<T> implements JsonDeserializer<T> {
                 .create();
         // Deserialize it. You use a new instance of Gson to avoid infinite recursion
         // to this deserializer
+
+        JsonElement content = json.getAsJsonObject().get("data");
+
+        if(content == null){
+            //If there's no data root object, just parse as usual.
+            return gson.fromJson(json, typeOfT);
+        }
+
         return gson.fromJson(content, typeOfT);
     }
 }
