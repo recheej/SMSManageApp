@@ -10,10 +10,11 @@ import android.widget.EditText;
 import com.example.rechee.smsmanage.fragments.ErrorDialogFragment;
 import com.example.rechee.smsmanage.R;
 import com.example.rechee.smsmanage.http.ToggleServiceGenerator;
-import com.example.rechee.smsmanage.http.models.toggl.TimeEntry;
-import com.example.rechee.smsmanage.http.models.toggl.UserInfoResponse;
-import com.example.rechee.smsmanage.http.services.toggl.TimeEntryService;
-import com.example.rechee.smsmanage.http.services.toggl.UserInfoService;
+import com.example.rechee.smsmanage.models.TimeEntry;
+import com.example.rechee.smsmanage.models.TogglResponse;
+import com.example.rechee.smsmanage.models.UserInfoResponse;
+import com.example.rechee.smsmanage.http.interfaces.toggl.TimeEntryService;
+import com.example.rechee.smsmanage.http.interfaces.toggl.UserInfoService;
 
 import java.util.List;
 
@@ -50,23 +51,23 @@ public class LoginActivity extends Activity {
         }
 
         final String baseUrl = getString(R.string.toggleAPIUrl);
-        UserInfoService userInfoService = (UserInfoService) new ToggleServiceGenerator
-                .Builder<UserInfoService, UserInfoResponse>(UserInfoService.class, UserInfoResponse.class, baseUrl)
+        UserInfoService userInfoService = new ToggleServiceGenerator
+                .Builder<UserInfoService>(UserInfoService.class, baseUrl)
                 .username(username)
                 .password(password)
                 .build();
 
-        Call<UserInfoResponse> call = userInfoService.userInformation();
+        Call<TogglResponse<UserInfoResponse>> call = userInfoService.userInformation();
 
-        call.enqueue(new Callback<UserInfoResponse>() {
+        call.enqueue(new Callback<TogglResponse<UserInfoResponse>>() {
             @Override
-            public void onResponse(Call<UserInfoResponse> call, Response<UserInfoResponse> response) {
+            public void onResponse(Call<TogglResponse<UserInfoResponse>> call, Response<TogglResponse<UserInfoResponse>> response) {
                 InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 if (response.isSuccessful()) {
-                    TimeEntryService timeEntryService = (TimeEntryService) new ToggleServiceGenerator
-                            .Builder<TimeEntryService, TimeEntry>(TimeEntryService.class, TimeEntry.class, baseUrl)
+                    TimeEntryService timeEntryService = new ToggleServiceGenerator
+                            .Builder<TimeEntryService>(TimeEntryService.class, baseUrl)
                             .username(username)
                             .password(password)
                             .build();
@@ -92,7 +93,7 @@ public class LoginActivity extends Activity {
             }
 
             @Override
-            public void onFailure(Call<UserInfoResponse> call, Throwable t) {
+            public void onFailure(Call<TogglResponse<UserInfoResponse>> call, Throwable t) {
                 Log.e(LOGIN_ACTIVITY, t.toString());
             }
         });

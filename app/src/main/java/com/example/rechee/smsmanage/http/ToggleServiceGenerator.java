@@ -13,36 +13,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ToggleServiceGenerator {
 
-    public static class Builder<S, T> {
+    public static class Builder<S> {
         //builder pattern to easily create a Service Generator
         private final String BASE_URL;
 
         //the service class that will be making http call
         private final Class<S> serviceClass;
         //the class of the response object that will be deserialized
-        private Class<T> responseClass;
         private String username = "";
         private String password = "";
-        private String authToken = "";
+        private String apiToken = "";
 
-        public Builder(Class<S> serviceClass, Class<T> responseClass, String baseUrl){
+        public Builder(Class<S> serviceClass, String baseUrl){
             this.serviceClass = serviceClass;
-            this.responseClass = responseClass;
             this.BASE_URL = baseUrl;
         }
 
-        public Builder username(String username){
+        public Builder<S> username(String username){
             this.username = username;
             return this;
         }
 
-        public Builder password(String password){
+        public Builder<S> password(String password){
             this.password = password;
             return this;
         }
 
-        public Builder authToken(String authToken){
-            this.authToken = authToken;
+        public Builder<S> authToken(String apiToken){
+            this.apiToken = apiToken;
             return this;
         }
 
@@ -65,11 +63,9 @@ public class ToggleServiceGenerator {
         return retrofitBuilder.build();
     }
 
-    private static <S, T> S createService(Builder<S, T> builder){
+    private static <S> S createService(Builder<S> builder){
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                //register serializer that skips "data" top level json element
-                .registerTypeAdapter(builder.responseClass, new ToggleResponseSerializer<T>())
                 .create();
 
         Retrofit.Builder retrofitBuilder =
@@ -92,16 +88,16 @@ public class ToggleServiceGenerator {
             return getServiceFromToken(builder, retrofitBuilder, httpClient, authToken);
         }
 
-        if(!TextUtils.isEmpty(builder.authToken)){
-            builder.username = builder.authToken;
+        if(!TextUtils.isEmpty(builder.apiToken)){
+            builder.username = builder.apiToken;
             builder.password = "api_token";
-            return getServiceFromToken(builder, retrofitBuilder, httpClient, builder.authToken);
+            return getServiceFromToken(builder, retrofitBuilder, httpClient, builder.apiToken);
         }
 
         return retrofit.create(builder.serviceClass);
     }
 
-    private static <S, T> S getServiceFromToken(Builder<S, T> builder, Retrofit.Builder retrofitBuilder, OkHttpClient.Builder httpClient, String authToken) {
+    private static <S> S getServiceFromToken(Builder<S> builder, Retrofit.Builder retrofitBuilder, OkHttpClient.Builder httpClient, String authToken) {
         Retrofit retrofit;
 
         TogglAuthenticationInterceptor interceptor =

@@ -1,12 +1,10 @@
 package com.example.rechee.smsmanage.http;
 
-import com.example.rechee.smsmanage.http.models.toggl.TogglApiError;
+import com.example.rechee.smsmanage.models.TogglApiError;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;
-
-import com.example.rechee.smsmanage.http.ToggleServiceGenerator;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
