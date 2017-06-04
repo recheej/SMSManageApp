@@ -1,7 +1,7 @@
 package com.example.rechee.smsmanage.http.interfaces.toggl;
 
 import com.example.rechee.smsmanage.models.TogglResponse;
-import com.example.rechee.smsmanage.models.UserInfoResponse;
+import com.example.rechee.smsmanage.models.UserInfo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,5 +12,5 @@ import retrofit2.http.GET;
 
 public interface UserInfoService {
     @GET("me")
-    Call<TogglResponse<UserInfoResponse>> userInformation();
+    Call<TogglResponse<UserInfo>> userInformation();
 }

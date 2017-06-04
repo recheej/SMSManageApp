@@ -78,20 +78,22 @@ public class ToggleServiceGenerator {
         OkHttpClient.Builder httpClient =
                 new OkHttpClient.Builder();
 
-        if(!TextUtils.isEmpty(builder.username)){
-            if(TextUtils.isEmpty(builder.password)){
-                //if the username is blank, let's assume that it is the api_token. according to Toggl, password is 'api_token'
-                builder.password = "api_token";
-            }
-
-            String authToken = Credentials.basic(builder.username, builder.password);
-            return getServiceFromToken(builder, retrofitBuilder, httpClient, authToken);
-        }
-
         if(!TextUtils.isEmpty(builder.apiToken)){
             builder.username = builder.apiToken;
             builder.password = "api_token";
-            return getServiceFromToken(builder, retrofitBuilder, httpClient, builder.apiToken);
+        }
+        else{
+            if(!TextUtils.isEmpty(builder.username)){
+                if(TextUtils.isEmpty(builder.password)){
+                    //if the username is blank, let's assume that it is the api_token. according to Toggl, password is 'api_token'
+                    builder.password = "api_token";
+                }
+            }
+        }
+
+        if(!TextUtils.isEmpty(builder.username) && !TextUtils.isEmpty(builder.password)){
+            String authToken = Credentials.basic(builder.username, builder.password);
+            return getServiceFromToken(builder, retrofitBuilder, httpClient, authToken);
         }
 
         return retrofit.create(builder.serviceClass);

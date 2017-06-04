@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SMSManage</string>
     <string name="preference_file_key">com.example.rechee.smsmanage</string>
-    <string name="toggl_auth_token">toggl_auth_token</string>
+    <string name="toggl_api_token">toggl_api_token</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

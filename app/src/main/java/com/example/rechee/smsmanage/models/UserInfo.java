@@ -4,7 +4,7 @@ package com.example.rechee.smsmanage.models;
  * Created by Rechee on 5/28/2017.
  */
 
-public class UserInfoResponse {
+public class UserInfo {
     public String apiToken;
     public String defaultWid;
     public String email;
