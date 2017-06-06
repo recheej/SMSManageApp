@@ -36,7 +36,9 @@ public class MainPresenter {
             .enqueue(new Callback<List<TimeEntry>>() {
                 @Override
                 public void onResponse(Call<List<TimeEntry>> call, Response<List<TimeEntry>> response) {
-                    System.out.println(response);
+                    if(response.isSuccessful()){
+                        view.setUpRecyclerView(response.body());
+                    }
                 }
 
                 @Override

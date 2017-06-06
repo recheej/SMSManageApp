@@ -20,7 +20,6 @@ public abstract class AbstractView extends Activity implements IView {
 
     @Override
     public String getBaseUrl() {
-
         return getString(R.string.toggleAPIUrl);
     }
 }
