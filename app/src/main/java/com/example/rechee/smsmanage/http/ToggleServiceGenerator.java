@@ -39,7 +39,7 @@ public class ToggleServiceGenerator {
             return this;
         }
 
-        public Builder<S> authToken(String apiToken){
+        public Builder<S> apiToken(String apiToken){
             this.apiToken = apiToken;
             return this;
         }
@@ -49,7 +49,7 @@ public class ToggleServiceGenerator {
         }
     }
 
-    public static Retrofit retrofit(String baseUrl){
+    static Retrofit retrofit(String baseUrl){
         Gson gson = new GsonBuilder()
                 .serializeNulls()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

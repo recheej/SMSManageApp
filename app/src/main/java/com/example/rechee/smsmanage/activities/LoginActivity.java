@@ -1,6 +1,5 @@
 package com.example.rechee.smsmanage.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,23 +9,21 @@ import android.widget.EditText;
 import com.example.rechee.smsmanage.R;
 import com.example.rechee.smsmanage.models.UserInfo;
 import com.example.rechee.smsmanage.presenters.LoginPresenter;
-import com.example.rechee.smsmanage.views.AbstractView;
-import com.example.rechee.smsmanage.views.ILoginView;
+import com.example.rechee.smsmanage.views.AbstractBaseView;
+import com.example.rechee.smsmanage.views.LoginView;
 
 
-public class LoginActivity extends AbstractView implements ILoginView {
+public class LoginActivity extends AbstractBaseView<LoginPresenter> implements LoginView {
     public static final String LOGIN_ACTIVITY = "LOGIN_ACTIVITY";
     private EditText usernameEditText;
     private EditText passwordEditText;
-
-    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginPresenter = new LoginPresenter(this);
+        this.presenter = new LoginPresenter(this);
 
         usernameEditText = (EditText) findViewById(R.id.editText_username);
         passwordEditText = (EditText) findViewById(R.id.editText_password);
@@ -48,7 +45,7 @@ public class LoginActivity extends AbstractView implements ILoginView {
 
         final String baseUrl = getString(R.string.toggleAPIUrl);
 
-        this.loginPresenter.userEnteredLoginInformation(username, password);
+        this.presenter.userEnteredLoginInformation(username, password);
     }
 
     /**

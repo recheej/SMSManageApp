@@ -4,7 +4,7 @@ import com.example.rechee.smsmanage.http.ToggleServiceGenerator;
 import com.example.rechee.smsmanage.http.interfaces.toggl.UserInfoService;
 import com.example.rechee.smsmanage.models.TogglResponse;
 import com.example.rechee.smsmanage.models.UserInfo;
-import com.example.rechee.smsmanage.views.ILoginView;
+import com.example.rechee.smsmanage.views.LoginView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,19 +14,17 @@ import retrofit2.Response;
  * Created by Rechee on 6/3/2017.
  */
 
-public class LoginPresenter {
+public class LoginPresenter extends BasePresenter<LoginView> {
 
-    private final ILoginView view;
-
-    public LoginPresenter(ILoginView view){
-        this.view = view;
+    public LoginPresenter(LoginView view) {
+        super(view);
     }
 
     public void userEnteredLoginInformation(final String username, final String password){
         final String baseUrl = view.getBaseUrl();
 
         UserInfoService userInfoService = new ToggleServiceGenerator
-                .Builder<UserInfoService>(UserInfoService.class, baseUrl)
+                .Builder<>(UserInfoService.class, baseUrl)
                 .username(username)
                 .password(password)
                 .build();

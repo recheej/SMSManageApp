@@ -1,31 +1,36 @@
 package com.example.rechee.smsmanage.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.rechee.smsmanage.R;
 import com.example.rechee.smsmanage.fragments.TimeEntryAdapter;
 import com.example.rechee.smsmanage.models.TimeEntry;
+import com.example.rechee.smsmanage.presenters.BasePresenter;
 import com.example.rechee.smsmanage.presenters.MainPresenter;
-import com.example.rechee.smsmanage.views.AbstractView;
-import com.example.rechee.smsmanage.views.IMainView;
+import com.example.rechee.smsmanage.views.AbstractBaseView;
+import com.example.rechee.smsmanage.views.BaseView;
+import com.example.rechee.smsmanage.views.MainView;
 
 import java.util.List;
 
-public class MainActivity extends AbstractView implements IMainView {
+public class MainActivity extends AbstractBaseView<BasePresenter<MainView>> implements MainView {
 
-    private MainPresenter mainPresenter;
     private RecyclerView recyclerView;
     private TimeEntryAdapter timeEntryAdapter;
+    private DividerItemDecoration mDividerItemDecoration;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         String preferenceFileKey = getString(R.string.preference_file_key);
         SharedPreferences sharedPref = this.getSharedPreferences(preferenceFileKey, Context.MODE_PRIVATE);
@@ -34,13 +39,18 @@ public class MainActivity extends AbstractView implements IMainView {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        mainPresenter = new MainPresenter(this);
-        mainPresenter.getTimeEntriesFromLastDay();
-
-        setContentView(R.layout.activity_main);
-
-        this.recyclerView = (RecyclerView) findViewById(R.id.recyclerViewTimeEntries);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        presenter = new MainPresenter(this);
+//        presenter.getTimeEntriesFromLastDay();
+//
+//        this.recyclerView = (RecyclerView) findViewById(R.id.recyclerViewTimeEntries);
+//        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+//            //add divider for api >= 25
+//            mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+//                    this.getResources().getConfiguration().orientation);
+//            recyclerView.addItemDecoration(mDividerItemDecoration);
+//        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import retrofit2.http.GET;
  * Created by Rechee on 5/28/2017.
  */
 
-public interface UserInfoService {
+public interface UserInfoService extends RetroFitService {
     @GET("me")
     Call<TogglResponse<UserInfo>> userInformation();
 }

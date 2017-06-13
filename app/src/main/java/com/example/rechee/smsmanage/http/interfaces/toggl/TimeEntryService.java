@@ -12,7 +12,7 @@ import retrofit2.http.Query;
  * Created by Rechee on 5/29/2017.
  */
 
-public interface TimeEntryService {
+public interface TimeEntryService extends RetroFitService {
     @GET("time_entries")
     Call<List<TimeEntry>> getTimeEntries(@Query("start_date") String startDate, @Query("end_date") String endDate);
 }
