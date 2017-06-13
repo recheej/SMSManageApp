@@ -3,29 +3,20 @@ package com.example.rechee.smsmanage.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.rechee.smsmanage.R;
 import com.example.rechee.smsmanage.fragments.TimeEntryAdapter;
-import com.example.rechee.smsmanage.models.TimeEntry;
-import com.example.rechee.smsmanage.presenters.BasePresenter;
-import com.example.rechee.smsmanage.presenters.MainPresenter;
-import com.example.rechee.smsmanage.views.AbstractBaseView;
-import com.example.rechee.smsmanage.views.BaseView;
-import com.example.rechee.smsmanage.views.MainView;
 
-import java.util.List;
 
-public class MainActivity extends AbstractBaseView<BasePresenter<MainView>> implements MainView {
+public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TimeEntryAdapter timeEntryAdapter;
     private DividerItemDecoration mDividerItemDecoration;
-    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +44,9 @@ public class MainActivity extends AbstractBaseView<BasePresenter<MainView>> impl
 //        }
     }
 
-    @Override
-    public void setUpRecyclerView(List<TimeEntry> timeEntries) {
-        timeEntryAdapter = new TimeEntryAdapter(this, timeEntries);
-        this.recyclerView.setAdapter(timeEntryAdapter);
-    }
+//    @Override
+//    public void setUpRecyclerView(List<TimeEntry> timeEntries) {
+//        timeEntryAdapter = new TimeEntryAdapter(this, timeEntries);
+//        this.recyclerView.setAdapter(timeEntryAdapter);
+//    }
 }

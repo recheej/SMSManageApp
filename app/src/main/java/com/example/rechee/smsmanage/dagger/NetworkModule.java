@@ -11,7 +11,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,16 +27,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 @Module
-public class ServiceModule {
+public class NetworkModule {
 
     private String baseUrl;
     private String apiToken;
 
-    public ServiceModule(String baseUrl, String apiToken){
-        this.baseUrl = baseUrl;
-        this.apiToken = apiToken;
+    @Inject
+    public NetworkModule(String baseUrl, String apiToken){
     }
 
+    @Singleton
     @Provides
     public Gson providesGson() {
         return new GsonBuilder()
@@ -43,6 +45,7 @@ public class ServiceModule {
                 .create();
     }
 
+    @Singleton
     @Provides
     public Retrofit providesRetrofit(Gson gson, OkHttpClient client){
 
@@ -55,6 +58,7 @@ public class ServiceModule {
         return retrofitBuilder.build();
     }
 
+    @Singleton
     @Provides
     public OkHttpClient provideOkHttpClient(TogglAuthenticationInterceptor interceptor){
         OkHttpClient.Builder client = new OkHttpClient.Builder();
@@ -63,6 +67,7 @@ public class ServiceModule {
         return client.build();
     }
 
+    @Singleton
     @Provides
     public TogglAuthenticationInterceptor provideTogglAuthenticationInterceptor() {
         return new TogglAuthenticationInterceptor(this.apiToken);

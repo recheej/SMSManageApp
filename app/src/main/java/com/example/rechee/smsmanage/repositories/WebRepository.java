@@ -1,18 +1,21 @@
 package com.example.rechee.smsmanage.repositories;
 
+import android.webkit.WebResourceError;
+
 import javax.inject.Inject;
+
+import retrofit2.Retrofit;
 
 /**
  * Created by Rechee on 6/11/2017.
  */
 
 public class WebRepository {
-    protected String baseUrl;
 
     @Inject
-    public WebRepository(String baseUrl){
-        this.baseUrl = baseUrl;
-    }
+    Retrofit retrofit;
 
-    public WebRepository() {}
+    @Inject
+    public WebRepository(Retrofit retrofit){
+    }
 }

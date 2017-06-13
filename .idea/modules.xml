@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SMSManage.iml" filepath="$PROJECT_DIR$/SMSManage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SMSManageApp.iml" filepath="$PROJECT_DIR$/SMSManageApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

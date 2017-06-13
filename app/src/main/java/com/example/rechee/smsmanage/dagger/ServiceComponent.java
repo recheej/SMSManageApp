@@ -1,15 +1,19 @@
 package com.example.rechee.smsmanage.dagger;
 
-import com.example.rechee.smsmanage.http.interfaces.toggl.TimeEntryService;
-import com.example.rechee.smsmanage.presenters.MainPresenter;
+import com.example.rechee.smsmanage.repositories.WebRepository;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
+import retrofit2.Retrofit;
 
 /**
  * Created by Rechee on 6/11/2017.
  */
 
-@Component(modules = {ServiceModule.class, ContextModule.class})
+@Singleton
+@Component(modules = {NetworkModule.class, ContextModule.class})
 public interface ServiceComponent {
-    void injectPresenter (MainPresenter presenter);
+    void inject(WebRepository repository);
+    Retrofit retrofit();
 }
