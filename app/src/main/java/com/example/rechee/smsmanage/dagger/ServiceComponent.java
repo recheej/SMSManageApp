@@ -1,5 +1,8 @@
 package com.example.rechee.smsmanage.dagger;
 
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.rechee.smsmanage.activities.MainActivity;
 import com.example.rechee.smsmanage.repositories.WebRepository;
 
 import javax.inject.Singleton;
@@ -12,8 +15,8 @@ import retrofit2.Retrofit;
  */
 
 @Singleton
-@Component(modules = {NetworkModule.class, ContextModule.class})
+@Component(modules = {NetworkModule.class, ContextModule.class, ViewModelModule.class, WebRepositoryModule.class})
 public interface ServiceComponent {
-    void inject(WebRepository repository);
+    void inject(MainActivity activity);
     Retrofit retrofit();
 }

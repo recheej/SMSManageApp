@@ -17,5 +17,6 @@ public class WebRepository {
 
     @Inject
     public WebRepository(Retrofit retrofit){
+        this.retrofit = retrofit;
     }
 }

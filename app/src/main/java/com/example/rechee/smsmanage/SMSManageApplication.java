@@ -1,15 +1,15 @@
 package com.example.rechee.smsmanage;
 
 import android.app.Application;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.rechee.smsmanage.dagger.ContextModule;
 import com.example.rechee.smsmanage.dagger.DaggerServiceComponent;
 import com.example.rechee.smsmanage.dagger.NetworkModule;
+import com.example.rechee.smsmanage.dagger.ViewModelModule;
 
-import javax.inject.Named;
-
-import dagger.Provides;
 
 /**
  * Created by Rechee on 6/11/2017.
@@ -17,26 +17,25 @@ import dagger.Provides;
 
 public class SMSManageApplication extends Application {
 
+    private DaggerServiceComponent component;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        String baseUrl = providesBaseurl();
-        String apiToken = providesToken();
+        String preferenceFileKey = getString(R.string.preference_file_key);
+        SharedPreferences sharedPref = this.getSharedPreferences(preferenceFileKey, Context.MODE_PRIVATE);
+        String togglApiToken = sharedPref.getString(getString(R.string.toggl_api_token), "");
 
-        DaggerServiceComponent component = (DaggerServiceComponent) DaggerServiceComponent.builder()
-                .networkModule(new NetworkModule(baseUrl, apiToken))
+
+        this.component = (DaggerServiceComponent) DaggerServiceComponent.builder()
+                .contextModule(new ContextModule(this))
+                .networkModule(new NetworkModule(getString(R.string.toggleAPIUrl), togglApiToken))
+                .viewModelModule(new ViewModelModule())
                 .build();
     }
 
-
-    public String providesBaseurl() {
-        return this.getResources().getString(R.string.toggleAPIUrl);
-    }
-
-    public String providesToken() {
-        String preferenceFileKey = this.getString(R.string.preference_file_key);
-        SharedPreferences sharedPref = this.getSharedPreferences(preferenceFileKey, Context.MODE_PRIVATE);
-        return sharedPref.getString(this.getString(R.string.toggl_api_token), "");
+    public DaggerServiceComponent getComponent() {
+        return this.component;
     }
 }
