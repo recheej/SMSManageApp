@@ -26,14 +26,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Rechee on 6/11/2017.
  */
 
-@Module
+@Module(includes = ContextModule.class)
 public class NetworkModule {
 
     private String baseUrl;
     private String apiToken;
 
-    @Inject
     public NetworkModule(String baseUrl, String apiToken){
+
     }
 
     @Singleton
